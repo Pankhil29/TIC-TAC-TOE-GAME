@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin: 50px auto;
+            width: max-content;
+            overflow: hidden;
+        }
+
+        .cell {
+            background-color: #f0f0f0;
+            border: 2px solid #333;
+            font-size: 40px;
+            text-align: center;
+            line-height: 100px;
+            cursor: pointer;
+            /* user-select: none; */
+        }
+
+        .win {
+            margin-top: 10px;
+            margin-left: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Tic Tac Toe</h1>
+    <div class="board" id="board">
+
+        <div class="cell" id="cell-0" onclick="handle('cell-0')"></div>
+        <div class="cell" id="cell-1" onclick="handle('cell-1')"></div>
+        <div class="cell" id="cell-2" onclick="handle('cell-2')"></div>
+        <div class="cell" id="cell-3" onclick="handle('cell-3')"></div>
+        <div class="cell" id="cell-4" onclick="handle('cell-4')"></div>
+        <div class="cell" id="cell-5" onclick="handle('cell-5')"></div>
+        <div class="cell" id="cell-6" onclick="handle('cell-6')"></div>
+        <div class="cell" id="cell-7" onclick="handle('cell-7')"></div>
+        <div class="cell" id="cell-8" onclick="handle('cell-8')"></div>
+
+
+        <button id="restart" onclick="resetGame()">Restart</button>
+        <div class="win" id="win"></div>
+
+
+    </div>
+
+    <script>
+
+        var cell0 = document.getElementById('cell-0');
+        var cell1 = document.getElementById('cell-1');
+        var cell2 = document.getElementById('cell-2');
+        var cell3 = document.getElementById('cell-3');
+        var cell4 = document.getElementById('cell-4');
+        var cell5 = document.getElementById('cell-5');
+        var cell6 = document.getElementById('cell-6');
+        var cell7 = document.getElementById('cell-7');
+        var cell8 = document.getElementById('cell-8');
+        count = 0;
+        let over = false;
+        function handle(ele) {
+            var cell = document.getElementById(ele);
+            if (over) {
+                return;
+            }
+            if (cell.innerText !== "")
+                return;
+            if (count % 2 == 0) {
+                cell.innerText = "X";
+
+            }
+            else {
+                cell.innerText = "O";
+
+            }
+
+            count++;
+
+            if (count <= 9) {
+                if (cell0.innerText === "O" && cell1.innerText === "O" && cell2.innerText === "O" ||
+                    cell3.innerText === "O" && cell4.innerText === "O" && cell5.innerText === "O" ||
+                    cell6.innerText === "O" && cell7.innerText === "O" && cell8.innerText === "O" ||
+                    cell0.innerText === "O" && cell3.innerText === "O" && cell6.innerText === "O" ||
+                    cell1.innerText === "O" && cell4.innerText === "O" && cell7.innerText === "O" ||
+                    cell2.innerText === "O" && cell5.innerText === "O" && cell8.innerText === "O" ||
+                    cell0.innerText === "O" && cell4.innerText === "O" && cell8.innerText === "O" ||
+                    cell2.innerText === "O" && cell4.innerText === "O" && cell6.innerText === "O") {
+                    var win = document.getElementById('win');
+                    win.innerText = "O win";
+                    // cell.disabled = true;
+                    over = true;
+                }
+                else if (cell0.innerText === "X" && cell1.innerText === "X" && cell2.innerText === "X" ||
+                    cell3.innerText === "X" && cell4.innerText === "X" && cell5.innerText === "X" ||
+                    cell6.innerText === "X" && cell7.innerText === "X" && cell8.innerText === "X" ||
+                    cell0.innerText === "X" && cell3.innerText === "X" && cell6.innerText === "X" ||
+                    cell1.innerText === "X" && cell4.innerText === "X" && cell7.innerText === "X" ||
+                    cell2.innerText === "X" && cell5.innerText === "X" && cell8.innerText === "X" ||
+                    cell0.innerText === "X" && cell4.innerText === "X" && cell8.innerText === "X" ||
+                    cell2.innerText === "X" && cell4.innerText === "X" && cell6.innerText === "X") {
+                    var win = document.getElementById('win');
+                    win.innerText = "X win";
+                    // cell.disabled = true;
+                    over = true;
+                }
+                else if (count === 9) {
+                    var draw = document.getElementById('win');
+                    draw.innerText = "Draw";
+                    over = true;
+                }
+            }
+        }
+        function resetGame() {
+            document.getElementById('cell-0').innerText = "";
+            document.getElementById('cell-1').innerText = "";
+            document.getElementById('cell-2').innerText = "";
+            document.getElementById('cell-3').innerText = "";
+            document.getElementById('cell-4').innerText = "";
+            document.getElementById('cell-5').innerText = "";
+            document.getElementById('cell-6').innerText = "";
+            document.getElementById('cell-7').innerText = "";
+            document.getElementById('cell-8').innerText = "";
+            over = false;
+            win.innerText = "";
+            count = 0;
+            // cell0.disabled = false;
+            // cell1.disabled = false;
+            // cell2.disabled = false;
+            // cell3.disabled = false;
+            // cell4.disabled = false;
+            // cell5.disabled = false;
+            // cell6.disabled = false;
+            // cell7.disabled = false;
+            // cell8.disabled = false;
+        }
+    </script>
+    <!-- <script>
+        var turn = 0;
+        let gameOver = false;
+        function handle(index) {
+            var cell = document.getElementById("cell-" + index);
+            if (cell.textContent === "") {
+                if (gameOver)
+                    return;
+                if (turn % 2 === 0) {
+                    cell.textContent = "X";
+                }
+                else {
+                    cell.textContent = "O";
+                }
+
+                turn++;
+                checkWinner();
+            }
+        }
+
+        var winningCombo = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 4, 8], [2, 4, 6], [0, 3, 6], [1, 4, 7], [2, 5, 8]];
+        function checkWinner() {
+            for (var i = 0; i < winningCombo.length; i++) {
+                var [a, b, c] = winningCombo[i];
+                var cellA = document.getElementById("cell-" + a).textContent;
+                var cellB = document.getElementById("cell-" + b).textContent;
+                var cellC = document.getElementById("cell-" + c).textContent;
+                if (cellA !== "" && cellA === cellB && cellB === cellC) {
+                    // let win = document.createElement("div");
+                    // win.classList.add("win");
+                    // win.innerText = cellA + "wins!";
+                    // document.getElementById("board").appendChild(win);
+                    document.getElementById("win").innerText = cellA + "wins!";
+                    gameOver = true;
+                    //resetGame();
+                    return;
+                }
+            }
+            if (turn === 9) {
+                // let draw = document.createElement("div");
+                // draw.classList.add("win");
+                // draw.innerText = "It is a draw";
+                // document.getElementById("board").appendChild(draw);
+                document.getElementById("win").innerText = cellA + "wins!";
+                resetGame();
+            }
+
+        }
+
+        function resetGame() {
+            for (var i = 0; i < 9; i++) {
+                document.getElementById("cell-" + i).textContent = "";
+            }
+            turn = 0;
+            gameOver = false;
+            document.getElementById("win").innerText = "";
+
+        }
+    </script> -->
+</body>
+
+</html>
