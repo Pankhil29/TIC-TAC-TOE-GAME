@@ -3,26 +3,46 @@
 
 <head>
     <meta charset="UTF-8">
+    <style>
+        @keyframes squish {
+            0%   { transform: scale(1); }
+            30%  { transform: scale(1.3, 0.7); }
+            50%  { transform: scale(0.9, 1.1); }
+            70%  { transform: scale(1.1, 0.9); }
+            100% { transform: scale(1); }
+        }
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #00021b;
+        }
         .board {
             display: grid;
             grid-template-columns: repeat(3, 100px);
             grid-template-rows: repeat(3, 100px);
-            gap: 5px;
+            gap: 10px;
             margin: 50px auto;
             width: max-content;
             overflow: hidden;
         }
 
         .cell {
-            background-color: #f0f0f0;
-            border: 2px solid #333;
+            background-color: #3c4c79;
+            border: none;
             font-size: 40px;
             text-align: center;
             line-height: 100px;
             cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
             /* user-select: none; */
         }
 
@@ -35,12 +55,34 @@
 
         h1 {
             text-align: center;
+            color: white;
+        }
+        .win {
+            color: white;
+        }
+        .restart {
+            background-color: #3c4c79;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            font-family: monospace;
+        }
+        .restart:hover {
+            background-color: white;
+            color: black;
+            transform: scale(1.1);
+            transition: all 0.3s ease-in-out;
+           
         }
     </style>
 </head>
 
 <body>
-    <h1>Tic Tac Toe</h1>
+    <h1 id="myh1" >Tic Tac Toe</h1>
+    <div class="win" id="win"></div>
     <div class="board" id="board">
 
         <div class="cell" id="cell-0" onclick="handle('cell-0')"></div>
@@ -54,11 +96,12 @@
         <div class="cell" id="cell-8" onclick="handle('cell-8')"></div>
 
 
-        <button id="restart" onclick="resetGame()">Restart</button>
-        <div class="win" id="win"></div>
-
+        
+       
 
     </div>
+    
+    <button  class="restart" id="restart" onclick="resetGame()">Restart</button>
 
     <script>
 
@@ -82,10 +125,15 @@
                 return;
             if (count % 2 == 0) {
                 cell.innerText = "X";
-
+                cell.style.color = "#02d3b0";
+                cell.style.backgroundColor = "#d5116f";
+                cell.style.animation = "squish 0.4s ease";
             }
             else {
                 cell.innerText = "O";
+                cell.style.color = "#d5116f";
+                cell.style.backgroundColor = "#02d3b0";
+                cell.style.animation = "squish 0.4s ease";
 
             }
 
@@ -100,7 +148,7 @@
                     cell2.innerText === "O" && cell5.innerText === "O" && cell8.innerText === "O" ||
                     cell0.innerText === "O" && cell4.innerText === "O" && cell8.innerText === "O" ||
                     cell2.innerText === "O" && cell4.innerText === "O" && cell6.innerText === "O") {
-                    var win = document.getElementById('win');
+                    var win = document.getElementById('myh1');
                     win.innerText = "O win";
                     // cell.disabled = true;
                     over = true;
@@ -113,7 +161,7 @@
                     cell2.innerText === "X" && cell5.innerText === "X" && cell8.innerText === "X" ||
                     cell0.innerText === "X" && cell4.innerText === "X" && cell8.innerText === "X" ||
                     cell2.innerText === "X" && cell4.innerText === "X" && cell6.innerText === "X") {
-                    var win = document.getElementById('win');
+                    var win = document.getElementById('myh1');
                     win.innerText = "X win";
                     // cell.disabled = true;
                     over = true;
@@ -126,18 +174,17 @@
             }
         }
         function resetGame() {
-            document.getElementById('cell-0').innerText = "";
-            document.getElementById('cell-1').innerText = "";
-            document.getElementById('cell-2').innerText = "";
-            document.getElementById('cell-3').innerText = "";
-            document.getElementById('cell-4').innerText = "";
-            document.getElementById('cell-5').innerText = "";
-            document.getElementById('cell-6').innerText = "";
-            document.getElementById('cell-7').innerText = "";
-            document.getElementById('cell-8').innerText = "";
+          
             over = false;
             win.innerText = "";
             count = 0;
+            // for (let i = 0; i < 9; i++) {
+            //     document.getElementById('cell-' + i).innerText = "";
+            //     document.getElementById('cell-' + i).style.backgroundColor = "";
+            // }
+            location.reload();
+           
+
             // cell0.disabled = false;
             // cell1.disabled = false;
             // cell2.disabled = false;
